@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="GetpatientsbytheirIDFlow" doc:id="aa1fe2d5-0bd1-42c8-8fc5-ff3794c65c52" >
+		<salesforce:query doc:name="Query" doc:id="46830b5c-09cf-49bc-8db9-5ab55f9f7abc" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query ><![CDATA[SELECT Name FROM Account WHERE PID__c =':id']]></salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	id : attributes.uriParams.id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="Result of GetbyID flow" doc:id="c2939989-1cd8-4de2-9263-18a7c5a98888" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+ ---
+
+ {
+
+     Name: payload.Name
+
+ }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="PostthepatientdetailsFlow" doc:id="6c59a92c-e5de-4140-ab22-3df980868f6b" >
+		<ee:transform doc:name="Conversion from JSON to Java" doc:id="9ce43118-0ed4-45a7-9e76-058c0272d699" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+[
+{
+    PID__c:payload.id,
+    Name:payload.name.use,
+    BillingCity:payload.address.city,
+    BillingState:payload.address.state,
+    BillingPostalCode:payload.address.postalCode,
+    Phone:payload.telecom.value
+}
+]
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:upsert doc:name="Upsert" doc:id="c822d086-6e33-4bbc-86fd-6dda7532d6ab" config-ref="Salesforce_Config" objectType="Account" externalIdFieldName="PID__c"/>
+		<ee:transform doc:name="Conversion from  Java to JSON" doc:id="5a64695b-c4c1-4c20-9301-1b21c0ab1c21" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
