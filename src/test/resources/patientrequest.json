@@ -1,0 +1,39 @@
+{
+"id": "patient2",
+"gender":"female",
+"name": [
+{
+"use": "Annalise Keating",
+"family": "Chalmers",
+"given": [
+"Peter",
+"James"
+]
+}
+],
+"telecom": [
+{
+"system": "phone",
+"value": "(03) 5555 6473",
+"use": "work",
+"rank": 1
+}
+],
+"address": [
+{
+"use": "home",
+"type": "both",
+"text": "534 Erewhon St PeasantVille, Rainbow, Vic 3999",
+"line": [
+"534 Erewhon St"
+],
+"city": "PleasantVille",
+"district": "Rainbow",
+"state": "Vic",
+"postalCode": "3999",
+"period": {
+"start": "1974-12-25"
+}
+}
+]
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="implementation-test-suite.xml" />
+	<munit:test name="implementation-test-suite-GetpatientsbytheirIDFlowTest" doc:id="84e53f29-a8e1-46ff-91a0-7361248e597c" description="Test">
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="1ea09b4f-3397-4814-961d-ae0360643860" >
+				<munit:attributes value="#[{ uriParams:&#10; { 'id' :  'patient2'}}]" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to GetpatientsbytheirIDFlow" doc:id="da416e39-1b49-4cb0-8b74-09efdb717d04" name="GetpatientsbytheirIDFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="e6988748-53d8-4989-ac4d-edad0e8722b4" is="#[MunitTools::notNullValue()]" expression="#[payload]" message="id does not exist"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="implementation-test-suite-PostthepatientdetailsFlowTest" doc:id="cc1dc28d-77c5-4823-895e-ea86707a2a8c" description="Test">
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="516caa78-7fa3-428f-9a22-f9eb7c011a2e" >
+				<munit:payload value="#[MunitTools::getResourceAsString('patientrequest.json')]" mediaType="application/fhir+json" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to PostthepatientdetailsFlow" doc:id="4b91e513-07f6-4cb9-8991-51cbc266aad3" name="PostthepatientdetailsFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="40de62be-1b82-44d2-b586-1f65f5648267" is="#[MunitTools::notNullValue()]" message="cannot post the given details" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
