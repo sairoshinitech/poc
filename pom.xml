@@ -59,6 +59,7 @@
 				</executions>
 				<configuration>
 					<coverage>
+					    <failBuild>false</failBuild>
 						<runCoverage>true</runCoverage>
 						<formats>
 							<format>html</format>
@@ -97,14 +98,14 @@
 		<dependency>
 			<groupId>com.mulesoft.munit</groupId>
 			<artifactId>munit-runner</artifactId>
-			<version>2.3.5</version>
+			<version>2.3.1</version>
 			<classifier>mule-plugin</classifier>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.mulesoft.munit</groupId>
 			<artifactId>munit-tools</artifactId>
-			<version>2.3.5</version>
+			<version>2.3.1</version>
 			<classifier>mule-plugin</classifier>
 			<scope>test</scope>
 		</dependency>
@@ -113,6 +114,12 @@
 			<artifactId>assertions</artifactId>
 			<version>1.0.2</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+		<groupId>com.mulesoft.munit</groupId>
+        <artifactId>munit-remote</artifactId>
+        <version>2.3.1</version>
+        <scope>test</scope>
 		</dependency>
 	</dependencies>
 
