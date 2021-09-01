@@ -10,7 +10,7 @@ pipeline
  
   stage('Deploy Application To Mulesoft Cloudhub'){
   steps{
-  bat 'mvn deploy -DmuleDeploy'
+  bat 'mvn -DskipTests package deploy -DmuleDeploy'
   }
    }   
    stage('Perform Regression Testing'){
